@@ -18,7 +18,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.beaver",
-					"match": "\\b(%typeof|%goal|%terminals|%embed|%class|%package)\\b"
+					"match": "(%typeof|%goal|%terminals|%embed|%class|%package)"
 				}
 			]
 		},
