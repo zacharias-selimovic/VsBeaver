@@ -1,0 +1,6 @@
+%package "mypackage";
+%class "MyParser";
+%terminals NUMBER PLUS MINUS;
+
+expr = expr.a PLUS expr.b {: return a + b; :}
+     | NUMBER.n      {: return n; :};

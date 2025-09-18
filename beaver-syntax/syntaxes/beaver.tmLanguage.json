@@ -1,20 +1,26 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Beaver",
+	"scopeName": "source.beaver",
 	"patterns": [
 		{
 			"include": "#keywords"
 		},
 		{
 			"include": "#strings"
+		},
+		{
+			"include": "#comments"
 		}
 	],
 	"repository": {
 		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.beaver",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
+			"patterns": [
+				{
+					"name": "keyword.control.beaver",
+					"match": "\\b(%typeof|%goal|%terminals|%embed|%class|%package)\\b"
+				}
+			]
 		},
 		"strings": {
 			"name": "string.quoted.double.beaver",
@@ -26,7 +32,19 @@
 					"match": "\\\\."
 				}
 			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.double-slash.beaver",
+					"match": "//.*$"
+				},
+				{
+					"name": "comment.block.beaver",
+					"begin": "/\\*",
+					"end": "\\*/"
+				}
+			]
 		}
-	},
-	"scopeName": "source.beaver"
+	}
 }
