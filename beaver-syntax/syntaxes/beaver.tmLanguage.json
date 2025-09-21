@@ -1,50 +1,76 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "Beaver",
-	"scopeName": "source.beaver",
-	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		},
-		{
-			"include": "#comments"
-		}
-	],
-	"repository": {
-		"keywords": {
-			"patterns": [
-				{
-					"name": "keyword.control.beaver",
-					"match": "(%typeof|%goal|%terminals|%embed|%class|%package)"
-				}
-			]
-		},
-		"strings": {
-			"name": "string.quoted.double.beaver",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.beaver",
-					"match": "\\\\."
-				}
-			]
-		},
-		"comments": {
-			"patterns": [
-				{
-					"name": "comment.line.double-slash.beaver",
-					"match": "//.*$"
-				},
-				{
-					"name": "comment.block.beaver",
-					"begin": "/\\*",
-					"end": "\\*/"
-				}
-			]
-		}
-	}
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Beaver",
+  "scopeName": "source.beaver",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#java_inline"
+    },
+    {
+      "include": "#java_embed"
+    }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.beaver",
+          "match": "(%typeof|%goal|%terminals|%embed|%class|%package)"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.beaver",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.beaver",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.beaver",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.beaver",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "java_inline": {
+      "name": "meta.embedded.inline.java",
+      "begin": "\\{:",
+      "end": ":\\}",
+      "patterns": [
+        {
+          "include": "source.java"
+        }
+      ]
+    },
+    "java_embed": {
+      "name": "meta.embedded.block.java",
+      "begin": "%embed\\b",
+      "end": "(?=\\s*%\\w|$)", 
+      "patterns": [
+        {
+          "include": "source.java"
+        }
+      ]
+    }
+  }
 }
