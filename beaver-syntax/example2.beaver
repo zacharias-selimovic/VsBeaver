@@ -1,0 +1,139 @@
+%class "LangParser";
+%package "lang.ast";
+
+%embed {:
+    static public class SyntaxError extends RuntimeException { public SyntaxError(String msg) {super(msg);}}
+    // Disable syntax error recovery
+    protected void recoverFromError(Symbol token, TokenStream in) {
+        throw new SyntaxError("Cannot recover from the syntax error");
+    }
+:};
+
+%terminals ID, ASSIGN, PLUS, MINUS, MOD, MUL, DIV, EQ, NEQ, LT, GT, GTEQ, LTEQ,
+            LPAR, RPAR, LCURL, RCURL, SEMI, COMMA, INT, VOID, RETURN, NUMERAL, IF, ELSE, WHILE;
+
+%typeof program = "Program";
+%typeof functions = "List";
+%typeof function = "Function";
+%typeof parameter = "Parameter";
+%typeof parameters = "List";
+%typeof type = "Type";
+%typeof block = "Block";
+%typeof stmts = "List";
+%typeof stmt = "Stmt";
+%typeof declStmt = "DeclStmt";
+%typeof assignStmt = "AssignStmt";
+%typeof id_decl = "IdDecl";
+%typeof idUse = "IdUse";
+%typeof expr = "Expr";
+%typeof add = "Add";
+%typeof sub = "Sub";
+%typeof term = "Expr";
+%typeof factor = "Expr";
+%typeof mul = "Mul";
+%typeof div = "Div";
+%typeof mod = "Mod";
+%typeof emptyDecl = "EmptyDecl";
+%typeof ifStmt = "IfStmt";
+%typeof else = "Else";
+%typeof whileStmt = "WhileStmt";
+%typeof comp = "Comp";
+%typeof eq = "Eq";
+%typeof neq = "Neq";
+%typeof lt = "Lt";
+%typeof gt = "Gt";
+%typeof gteq = "Gteq";
+%typeof lteq = "Lteq";
+%typeof funcCall = "FuncCall";
+%typeof funcUse = "FuncUse";
+%typeof funcArgs = "List";
+%typeof sum = "Expr";
+%typeof parExpr = "ParExpr";
+
+/* Start */
+
+%goal program;
+
+/* Grammar */
+
+program = functions.fs {: return new Program(fs); :} ;
+
+functions =
+    function.f {: return new List().add(f); :}
+    | functions.fs function.f {: fs.add(f); return fs; :} ;
+
+function = type.t id_decl.name LPAR RPAR block.b {: return new Function(t, name, new List(), b); :}
+    | type.t id_decl.name LPAR parameters.params RPAR block.b {: return new Function(t, name, params, b); :} ;
+
+parameters = parameter.param {: return new List().add(param); :}
+    | parameters.params COMMA parameter.param {: return params.add(param); :} ;
+
+parameter = type.t id_decl.id {: return new Parameter(t, id); :} ;
+
+type = INT {: return new IntType(); :}
+    | VOID {: return new VoidType(); :} ;
+
+block = LCURL RCURL {: return new Block(new List()); :}
+    | LCURL stmts.ss RCURL {: return new Block(ss); :} ;
+
+stmts = stmt.s {: return new List().add(s); :}
+    | stmts.ss stmt.s {: ss.add(s); return ss; :} ;
+
+stmt = returnStmt | declStmt | assignStmt | emptyDecl | ifStmt | WhileStmt | funcCall;
+
+ifStmt =
+    IF LPAR expr.comp RPAR LCURL stmts.ss RCURL else.optional {: return new IfStmt(comp, ss, new Opt(optional)); :}
+    | IF LPAR expr.comp RPAR LCURL RCURL else.optional {: return new IfStmt(comp, new List(), new Opt(optional)); :}
+    | IF LPAR expr.comp RPAR LCURL stmts.ss RCURL {: return new IfStmt(comp, ss, new Opt()); :}
+    | IF LPAR expr.comp RPAR LCURL RCURL {: return new IfStmt(comp, new List(), new Opt()); :} ;
+
+else =
+    ELSE LCURL stmts.ss RCURL {: return new Else(ss); :}
+    | ELSE LCURL RCURL {: return new Else(new List()); :};
+
+WhileStmt =
+    WHILE LPAR expr.comp RPAR LCURL stmts.ss RCURL {: return new WhileStmt(comp, ss); :}
+    | WHILE LPAR expr.comp RPAR LCURL RCURL {: return new WhileStmt(comp, new List()); :};
+
+returnStmt = RETURN expr.e SEMI {: return new Return(e); :} ;
+
+emptyDecl = type id_decl.name SEMI {: return new EmptyDecl(name); :} ;
+assignStmt = id_decl.name ASSIGN expr.expr SEMI {: return new AssignStmt(name, expr); :} ;
+declStmt = type id_decl.name ASSIGN expr.expr SEMI {: return new DeclStmt(name, expr); :} ;
+
+funcCall = funcUse.func SEMI {: return new FuncCall(func); :} ;
+
+expr = comp | sum ;
+term = mul | div | mod | factor ;
+factor = MINUS factor.f | PLUS factor.f | numeral | idUse | LPAR expr.a RPAR {: return new ParExpr(a); :} | funcUse;
+
+comp =
+    sum.a EQ   sum.b {: return new Eq(a, b);   :}
+  | sum.a NEQ  sum.b {: return new Neq(a, b);  :}
+  | sum.a GT   sum.b {: return new Gt(a, b);   :}
+  | sum.a LT   sum.b {: return new Lt(a, b);   :}
+  | sum.a GTEQ sum.b {: return new Gteq(a, b); :}
+  | sum.a LTEQ sum.b {: return new Lteq(a, b); :}
+  ;
+
+sum =
+    sum.s PLUS term.t   {: return new Add(s, t); :}
+  | sum.s MINUS term.t  {: return new Sub(s, t); :}
+  | term.t              {: return t; :}
+  ;
+
+mul = term.term MUL factor.factor {: return new Mul(term, factor); :} ;
+div = term.term DIV factor.factor {: return new Div(term, factor); :} ;
+mod = term.term MOD factor.factor {: return new Mod(term, factor); :} ;
+
+numeral = NUMERAL.value {: return new Numeral(value); :} ;
+
+idUse = ID.name {: return new IdUse(name); :} ;
+
+id_decl = ID.name {: return new IdDecl(name); :} ;
+
+funcUse = id_decl.id LPAR funcArgs.args RPAR {: return new FuncUse(id, args); :}
+    | id_decl.id LPAR RPAR {: return new FuncUse(id, new List()); :} ;
+
+funcArgs = expr.expr {: return new List().add(expr); :}
+    | funcArgs.args COMMA expr.expr {: return args.add(expr); :} ;

@@ -10,16 +10,51 @@
     "Programming Languages"
   ],
   "contributes": {
-    "languages": [{
-      "id": "beaver",
-      "aliases": ["Beaver", "beaver"],
-      "extensions": [".beaver"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "beaver",
-      "scopeName": "source.beaver",
-      "path": "./syntaxes/beaver.tmLanguage.json"
-    }]
+    "languages": [
+      {
+        "id": "beaver",
+        "aliases": [
+          "Beaver",
+          "beaver"
+        ],
+        "extensions": [
+          ".beaver"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "beaver",
+        "scopeName": "source.beaver",
+        "path": "./syntaxes/beaver.tmLanguage.json"
+      }
+    ],
+    "tokenColors": [
+      {
+        "scope": [
+          "entity.name.terminal.beaver",
+          "meta.terminals.beaver",
+          "meta.rule.beaver entity.name.terminal.beaver",
+          "source.beaver entity.name.terminal.beaver"
+        ],
+        "settings": {
+          "foreground": "#ff8800",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "entity.name.function.beaver",
+        "settings": {
+          "foreground": "#4CAF50"
+        }
+      },
+      {
+        "scope": "entity.name.type.beaver",
+        "settings": {
+          "foreground": "#00BCD4"
+        }
+      }
+    ]
   }
 }

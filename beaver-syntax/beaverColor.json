@@ -1,0 +1,10 @@
+{
+    "tokenColors": [
+        {
+            "scope": "entity.name.terminal.beaver",
+            "settings": {
+                "foreground": "#00ff7f"
+            }
+        }
+    ]
+}

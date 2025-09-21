@@ -1,76 +1,150 @@
 {
-  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-  "name": "Beaver",
-  "scopeName": "source.beaver",
-  "patterns": [
-    {
-      "include": "#keywords"
-    },
-    {
-      "include": "#strings"
-    },
-    {
-      "include": "#comments"
-    },
-    {
-      "include": "#java_inline"
-    },
-    {
-      "include": "#java_embed"
-    }
-  ],
-  "repository": {
-    "keywords": {
-      "patterns": [
-        {
-          "name": "keyword.control.beaver",
-          "match": "(%typeof|%goal|%terminals|%embed|%class|%package)"
-        }
-      ]
-    },
-    "strings": {
-      "name": "string.quoted.double.beaver",
-      "begin": "\"",
-      "end": "\"",
-      "patterns": [
-        {
-          "name": "constant.character.escape.beaver",
-          "match": "\\\\."
-        }
-      ]
-    },
-    "comments": {
-      "patterns": [
-        {
-          "name": "comment.line.double-slash.beaver",
-          "match": "//.*$"
-        },
-        {
-          "name": "comment.block.beaver",
-          "begin": "/\\*",
-          "end": "\\*/"
-        }
-      ]
-    },
-    "java_inline": {
-      "name": "meta.embedded.inline.java",
-      "begin": "\\{:",
-      "end": ":\\}",
-      "patterns": [
-        {
-          "include": "source.java"
-        }
-      ]
-    },
-    "java_embed": {
-      "name": "meta.embedded.block.java",
-      "begin": "%embed\\b",
-      "end": "(?=\\s*%\\w|$)", 
-      "patterns": [
-        {
-          "include": "source.java"
-        }
-      ]
-    }
-  }
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Beaver",
+	"scopeName": "source.beaver",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#java_inline"
+		},
+		{
+			"include": "#java_embed"
+		},
+		{
+			"include": "#typeof"
+		},
+		{
+			"include": "#terminals"
+		},
+		{
+			"include": "#grammar_rules"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.beaver",
+					"match": "(%typeof|%goal|%terminals|%embed|%class|%package)"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.beaver",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.beaver",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.double-slash.beaver",
+					"match": "//.*$"
+				},
+				{
+					"name": "comment.block.beaver",
+					"begin": "/\\*",
+					"end": "\\*/"
+				}
+			]
+		},
+		"java_inline": {
+			"name": "meta.embedded.inline.java",
+			"begin": "\\{:",
+			"end": ":\\}",
+			"patterns": [
+				{
+					"include": "source.java"
+				}
+			]
+		},
+		"java_embed": {
+			"name": "meta.embedded.block.java",
+			"begin": "%embed\\b",
+			"end": "(?=\\s*%\\w|$)",
+			"patterns": [
+				{
+					"include": "source.java"
+				}
+			]
+		},
+		"typeof": {
+			"patterns": [
+				{
+					"name": "meta.typeof.beaver",
+					"begin": "(%typeof)\\s+(\\w+)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.typeof.beaver"
+						},
+						"2": {
+							"name": "entity.name.type.beaver"
+						}
+					},
+					"end": ";",
+					"patterns": [
+						{
+							"match": "\"[^\"]*\"",
+							"name": "string.quoted.double.beaver"
+						}
+					]
+				}
+			]
+		},
+		"grammar_rules": {
+			"patterns": [
+				{
+					"name": "meta.rule.beaver",
+					"begin": "^(\\w+)\\s*=",
+					"beginCaptures": {
+						"1": {
+							"name": "entity.name.function.beaver"
+						}
+					},
+					"end": ";",
+					"patterns": [
+						{
+							"match": "\\b[A-Z_]+\\b",
+							"name": "entity.name.terminal.beaver"
+						},
+						{
+							"match": "\\b\\w+\\b",
+							"name": "variable.other.rule.beaver"
+						},
+						{
+							"include": "#java_inline"
+						}
+					]
+				}
+			]
+		},
+		"terminals": {
+			"patterns": [
+				{
+					"name": "meta.terminals.beaver",
+					"begin": "%terminals",
+					"end": ";",
+					"patterns": [
+						{
+							"match": "\\b[A-Z_]+\\b",
+							"name": "entity.name.terminal.beaver"
+						}
+					]
+				}
+			]
+		}
+	}
 }
