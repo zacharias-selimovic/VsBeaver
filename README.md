@@ -5,9 +5,12 @@ Basic syntax highlighting for Beaver - a LALR Parser Generator.
 ## Features
 
 Highlights keywords such as %terminal, and terminal tokens making it easier to debug code which would otherwise easily pass as a typo.
+
 ![Alt text](assets/example.png)
 
+
 Also includes java syntax highlighting inside of %embed blocks and inside of {: :} blocks.
+
 ![Alt text](assets/embed.png)
 
 
