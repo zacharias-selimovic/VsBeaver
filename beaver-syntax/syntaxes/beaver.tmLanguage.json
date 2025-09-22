@@ -118,7 +118,7 @@
 					"patterns": [
 						{
 							"match": "\\b[A-Z_]+\\b",
-							"name": "entity.name.terminal.beaver"
+							"name": "support.type"
 						},
 						{
 							"match": "\\b\\w+\\b",
@@ -140,7 +140,7 @@
 					"patterns": [
 						{
 							"match": "\\b[A-Z_]+\\b",
-							"name": "entity.name.terminal.beaver"
+							"name": "keyword.other.terminal.beaver"
 						}
 					]
 				}

@@ -2,5 +2,5 @@
 %class "MyParser";
 %terminals NUMBER PLUS MINUS;
 
-expr = expr.a PLUS expr.b {: return a + b; :}
+expr = expr.a PLUS expr.b {: return new Add(a + b); :}
      | NUMBER.n      {: return n; :};
