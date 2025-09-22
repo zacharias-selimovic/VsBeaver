@@ -7,7 +7,7 @@
 			"include": "#keywords"
 		},
 		{
-			"include": "#strings"
+			"include": "#terminals"
 		},
 		{
 			"include": "#comments"
@@ -22,7 +22,7 @@
 			"include": "#typeof"
 		},
 		{
-			"include": "#terminals"
+			"include": "#strings"
 		},
 		{
 			"include": "#grammar_rules"
@@ -33,7 +33,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.beaver",
-					"match": "(%typeof|%goal|%terminals|%embed|%class|%package)"
+					"match": "(%typeof|%goal|%embed|%class|%package)"
 				}
 			]
 		},
@@ -135,12 +135,17 @@
 			"patterns": [
 				{
 					"name": "meta.terminals.beaver",
-					"begin": "%terminals",
+					"begin": "(%terminals)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.beaver"
+						}
+					},
 					"end": ";",
 					"patterns": [
 						{
 							"match": "\\b[A-Z_]+\\b",
-							"name": "keyword.other.terminal.beaver"
+							"name": "support.type"
 						}
 					]
 				}
