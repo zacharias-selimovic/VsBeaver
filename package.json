@@ -11,6 +11,7 @@
     "type": "git",
     "url": "https://github.com/zacharias-selimovic/VsBeaver/tree/main"
   },
+  "icon": "assets/vsBeaver.png",
   "categories": [
     "Programming Languages"
   ],
