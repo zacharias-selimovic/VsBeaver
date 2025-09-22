@@ -1,4 +1,4 @@
-# beaver-syntax README
+# VsBeaver README
 
 Basic syntax highlighting for Beaver - a LALR Parser Generator.
 
