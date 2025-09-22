@@ -7,6 +7,10 @@
     "vscode": "^1.104.0"
   },
   "publisher": "zache1337",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zacharias-selimovic/VsBeaver/tree/main"
+  },
   "categories": [
     "Programming Languages"
   ],
