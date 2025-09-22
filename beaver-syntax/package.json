@@ -1,11 +1,12 @@
 {
-  "name": "beaver-syntax",
+  "name": "VsBeaver",
   "displayName": "Beaver syntax",
-  "description": "Beaver syntax highlighting",
+  "description": "Simple Beaver syntax highlighting",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.104.0"
   },
+  "publisher": "zache1337",
   "categories": [
     "Programming Languages"
   ],
@@ -28,32 +29,6 @@
         "language": "beaver",
         "scopeName": "source.beaver",
         "path": "./syntaxes/beaver.tmLanguage.json"
-      }
-    ],
-    "tokenColors": [
-      {
-        "scope": [
-          "entity.name.terminal.beaver",
-          "meta.terminals.beaver",
-          "meta.rule.beaver entity.name.terminal.beaver",
-          "source.beaver entity.name.terminal.beaver"
-        ],
-        "settings": {
-          "foreground": "#ff8800",
-          "fontStyle": "bold"
-        }
-      },
-      {
-        "scope": "entity.name.function.beaver",
-        "settings": {
-          "foreground": "#4CAF50"
-        }
-      },
-      {
-        "scope": "entity.name.type.beaver",
-        "settings": {
-          "foreground": "#00BCD4"
-        }
       }
     ]
   }

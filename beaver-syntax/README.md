@@ -21,6 +21,6 @@ None for now.
 
 Making an entire LSP with name analysis would be really nice to further help with debugging since small typos can still pass, without any warnings of used names.
 To connect the terminal tokens with a jflex file, or %typeof declarations with .ast files would also be amazing.
-### 1.0.0
+### 0.0.1
 
-Initial release of ... not done
+Initial release of VsBeaver
